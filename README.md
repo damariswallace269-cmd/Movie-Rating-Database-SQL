@@ -1,69 +1,101 @@
-# Movie-Rating-Database-SQL
-A relational database project for managing movie ratings using MySQL.
+# 🎬 Movie Rating Database SQL
 
-## Project Overview
-This project involves creating a relational database to manage movie ratings. It covers database schema design, data insertion, and complex querying using MySQL.
+This is a relational database project for managing movie ratings using MySQL, demonstrating fundamental SQL concepts from database creation to complex querying.
 
-## Project Problem Statement
-Entertainment companies often struggle to make data-driven decisions because their user and content data are trapped in separate, flat CSV files. This makes it impossible to answer critical business questions like:
-* "Which genres are most popular among users in specific cities like Abuja or Lagos?"
-* "How does movie age correlate with user satisfaction?"
-* "Which target demographics are the most active reviewers?"
+---
 
-**The Solution:** A centralised MySQL database was designed and implemented to transform these disconnected files into a relational system, enabling fast, complex analysis of audience behaviour and content performance.
+## 📋 Project Overview
 
-## Tools Used
-* **Database:** MySQL
-* **Editor:** MySQL Workbench
-* **Data Source:** Google Sheets (CSV)
+This project involves building and exploring a movie rating system to understand how users rate movies, identify popular titles, and perform meaningful analysis using SQL statements across four progressive learning phases.
 
-## Database Schema & ER Diagram
-The system architecture uses a star-like schema to ensure data integrity and reduce redundancy. 
-The database consists of three main tables:
-* **Users Table:** Stores demographic details (Age, Gender, Location).
-* **Movies Table:** Catalogue of films (Title, Release Year, Genre, Director).
-* **Ratings Table:** A transactional bridge linking users to their movie experiences.
-  
-* The raw data used for this project can be found in the [data](./data) folder.
+---
 
+## 🗂️ Database Schema
 
-## Key Queries Performed
-* Filtering users by age and location.
-* Using logical operators to find specific movie genres.
-* Sorting and pagination for data reporting.
+### **Tables Structure**
 
-## Implementation & Query Results
-Below are the results of the business queries performed to extract insights.
-
-### 1. Audience Segmentation (Users > 25)
-**Goal:** Identify older demographics for targeted classic movie promotions.
+**Users Table**
 ```sql
+CREATE TABLE Users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    age INT,
+    gender VARCHAR(10),
+    location VARCHAR(50)
+);
+```
+**Movies Table**
+
+```sql
+CREATE TABLE Movies (
+    movie_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(200),
+    release_year INT,
+    genre VARCHAR(50),
+    director VARCHAR(100)
+);
+```
+**Rating Table**
+
+```sql
+CREATE TABLE Ratings (
+    rating_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    movie_id INT,
+    rating_value INT,
+    rating_date DATE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (movie_id) REFERENCES Movies(movie_id)
+);
+```
+## **📝 Project Phases & Key Queries**
+**PHASE 1: Database Setup**
+```sql
+CREATE DATABASE MovieRatingDB;
+USE MovieRatingDB;
+```
+**PHASE 2: Basic Queries**
+```sql
+-- View all users
+SELECT * FROM Users;
+
+-- List all movies
+SELECT * FROM Movies;
+
+-- View all ratings
+SELECT * FROM Ratings;
+```
+**PHASE 3: Logical Operators**
+```sql
+-- Users older than 25
 SELECT * FROM Users WHERE age > 25;
-```
 
-
-### 2. Market Research (Female Users in Abuja)
-**Goal:** Analyse the preferences of female users in the capital region.
-```sql
-SELECT * FROM Users WHERE gender = 'Female' AND location = 'Abuja';
-```
-
-
-### 3. Content Trends (Movies 2000-2020)
-**Goal:** To evaluate the catalogue of modern-era films.
-```sql
+-- Movies released between 2000-2020
 SELECT * FROM Movies WHERE release_year BETWEEN 2000 AND 2020;
+
+-- Female users from Abuja
+SELECT * FROM Users WHERE gender = 'Female' AND location = 'Abuja';
+
+-- Non Sci-Fi movies
+SELECT * FROM Movies WHERE genre != 'Sci-Fi';
+
+-- Ratings >= 4
+SELECT * FROM Ratings WHERE rating_value >= 4;
 ```
-
-
-### 4. Quality Control (High Ratings Analysis)
-**Goal:** Identify the "Top 3" highest-rated experiences to understand success patterns.
+**PHASE 4: Sorting & Pagination**
 ```sql
+-- Newest movies first
+SELECT * FROM Movies ORDER BY release_year DESC;
+
+-- List unique genres
+SELECT DISTINCT genre FROM Movies;
+
+-- Top 3 highest ratings
 SELECT * FROM Ratings ORDER BY rating_value DESC LIMIT 3;
+
+-- Pagination (skip 2, show next 3)
+SELECT * FROM Movies ORDER BY movie_id LIMIT 3 OFFSET 2;
+
+-- Users alphabetically
+SELECT * FROM Users ORDER BY name;
 ```
-
-
-## Technical Challenges & Solutions
-* Date Formatting: During import, I encountered a Data truncated error for the Rating_Date column. I resolved this by importing dates as VARCHAR, then using STR_TO_DATE() to convert them into a standard MySQL DATE format.
-
-* Referential Integrity: Enforced FOREIGN KEY constraints to ensure that every rating entry points to a valid User and Movie.
