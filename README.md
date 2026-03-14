@@ -12,7 +12,14 @@ This project involves building and exploring a movie rating system to understand
 
 ## 🗂️ Database Schema
 
-### **Tables Structure**
+### **📝 Project Phases & Key Queries**
+## **PHASE 1: Database Setup**
+```sql
+CREATE DATABASE MovieRatingDB;
+USE MovieRatingDB;
+```
+
+## **Tables Structure**
 
 **Users Table**
 ```sql
@@ -48,13 +55,8 @@ CREATE TABLE Ratings (
     FOREIGN KEY (movie_id) REFERENCES Movies(movie_id)
 );
 ```
-## **📝 Project Phases & Key Queries**
-**PHASE 1: Database Setup**
-```sql
-CREATE DATABASE MovieRatingDB;
-USE MovieRatingDB;
-```
-**PHASE 2: Basic Queries**
+
+## **PHASE 2: Basic Queries**
 ```sql
 -- View all users
 SELECT * FROM Users;
@@ -65,7 +67,7 @@ SELECT * FROM Movies;
 -- View all ratings
 SELECT * FROM Ratings;
 ```
-**PHASE 3: Logical Operators**
+## **PHASE 3: Logical Operators**
 ```sql
 -- Users older than 25
 SELECT * FROM Users WHERE age > 25;
@@ -82,7 +84,7 @@ SELECT * FROM Movies WHERE genre != 'Sci-Fi';
 -- Ratings >= 4
 SELECT * FROM Ratings WHERE rating_value >= 4;
 ```
-**PHASE 4: Sorting & Pagination**
+## **PHASE 4: Sorting & Pagination**
 ```sql
 -- Newest movies first
 SELECT * FROM Movies ORDER BY release_year DESC;
