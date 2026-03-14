@@ -39,11 +39,6 @@ DESCRIBE Users;
 DESCRIBE Movies;
 DESCRIBE Ratings;
 
--- =====================================================
--- PHASE 2: Insert Sample Data
--- =====================================================
--- PHASE 2: Write Basic Queries
-
 -- 1. View all users
 SELECT * FROM Users;
 
@@ -52,13 +47,6 @@ SELECT * FROM Movies;
 
 -- 3. View all ratings
 SELECT * FROM Ratings;
-
--- 4. Find movies rated by a specific user (bonus)
--- Example: Find all movies rated by User_ID = 1
-SELECT m.Title, m.Release_Year, m.Genre, r.Rating_Value, r.Rating_Date
-FROM Movies m
-JOIN Ratings r ON m.ID = r.Movie_ID
-WHERE r.User_ID = 1;
 
 -- PHASE 3: Using Comparison and Logical Operators
 
@@ -87,10 +75,10 @@ ORDER BY Genre;
 
 -- 5. Find ratings greater than or equal to 4
 SELECT u.Name, m.Title, r.Rating_Value, r.Rating_Date
-FROM Ratings r
-JOIN Users u ON r.User_ID = u.User_Id
-JOIN Movies m ON r.Movie_ID = m.ID
-WHERE r.Rating_Value >= 4
+FROM Ratings r, Users u, Movies m
+WHERE r.User_ID = u.User_Id 
+  AND r.Movie_ID = m.ID
+  AND r.Rating_Value >= 4
 ORDER BY r.Rating_Value DESC;
 
 -- PHASE 4: Sorting, Filtering, and Pagination
@@ -106,18 +94,19 @@ FROM Movies
 ORDER BY Genre;
 
 -- 3. Top 3 highest ratings
-SELECT u.Name, m.Title, r.Rating_Value
+SELECT 
+    (SELECT Name FROM Users WHERE User_Id = r.User_ID) AS Name,
+    (SELECT Title FROM Movies WHERE ID = r.Movie_ID) AS Title,
+    r.Rating_Value
 FROM Ratings r
-JOIN Users u ON r.User_ID = u.User_Id
-JOIN Movies m ON r.Movie_ID = m.ID
 ORDER BY r.Rating_Value DESC
 LIMIT 3;
 
 -- 4. Skip the first 2 rows and display next 3 (ratings)
 SELECT u.Name, m.Title, r.Rating_Value, r.Rating_Date
-FROM Ratings r
-JOIN Users u ON r.User_ID = u.User_Id
-JOIN Movies m ON r.Movie_ID = m.ID
+FROM Ratings r, Users u, Movies m
+WHERE r.User_ID = u.User_Id 
+  AND r.Movie_ID = m.ID
 ORDER BY r.Rating_Date
 LIMIT 3 OFFSET 2;
 
