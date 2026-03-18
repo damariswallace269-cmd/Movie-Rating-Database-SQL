@@ -136,7 +136,25 @@ DESCRIBE Ratings;
 <img width="468" height="271" alt="image" src="https://github.com/user-attachments/assets/13e80021-ea93-4074-a582-4292f1317211" />
 <img width="469" height="243" alt="image" src="https://github.com/user-attachments/assets/a631562e-8686-4f5e-821c-dd56ede31cb3" />
 
-## **PHASE 2: Basic Queries**
+## **PHASE 2(Step 1): Insert Sample Data**
+```sql
+-- 1. Insert Users Data
+INSERT INTO Users (User_Id, Name, Age, Gender, Location) VALUES
+-- 2. Insert Movies Data
+INSERT INTO Movies (ID, Title, Release_Year, Genre, Director) VALUES
+-- 3. Insert Ratings Data
+INSERT INTO Ratings (User_ID, Movie_ID, Rating_Value, Rating_Date) VALUES
+## **PHASE 2(Step 2): Basic Queries**
+```
+<img width="646" height="852" alt="image" src="https://github.com/user-attachments/assets/2cd16fbe-e8bf-42ac-8b56-0b0162a58425" />
+<img width="474" height="251" alt="image" src="https://github.com/user-attachments/assets/3ae5e825-8329-4976-9fec-5269e4eb0cc2" />
+
+
+
+<img width="577" height="506" alt="image" src="https://github.com/user-attachments/assets/0f1cb94b-08f2-466b-a62f-c827ff1ac24a" />
+
+<img width="599" height="858" alt="image" src="https://github.com/user-attachments/assets/6bf9901e-5ffa-4eeb-af54-0791b2087c55" />
+
 ```sql
 -- View all users
 SELECT * FROM Users;
